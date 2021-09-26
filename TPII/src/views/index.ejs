@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<%- include ('partials/head') %>
+</head>
+
+<body>
+	<!-- NAVBAR -->
+	<%- include ('partials/navigation') %>
+
+	<div class="container">
+		<header class="row">
+				<img src="/img/delivery.png" alt="Logo" class="animated bounceIn">
+		</header>
+	</div>
+
+	<div class="container">
+		<div class="card">
+
+			<div class="card-header">
+			<i class="far fa-image"></i> subir imagen
+			</div>
+		
+			<div class="card-body">
+			<form action="/Subirimagen" method="POST" enctype="multipart/form-data">
+		
+				<div class="form-group">
+				<div class="input-group">
+					<div class="custom-file">
+					<input type="file" name="image" class="custom-file-input" id="inputGroupFile"
+						aria-describedby="inputGroupFileAddon" required />
+					<label class="custom-file-label" for="inputGroupFile">Elegir imagen</label>
+					</div>
+				</div>
+				</div>
+		
+				<div class="form-group">
+				<input type="text" name="titulo" class="form-control border border-success"
+					placeholder="Title for the Image" required>
+				</div>
+		
+				<div class="form-group">
+				<textarea name="descripcion" rows="2" class="form-control border border-success"
+					placeholder="Deescription for the Image" required></textarea>
+				</div>
+		
+				<div class="form-group">
+				<button class="btn btn-success">
+					<i class="fa fa-upload"></i> Subir imagen
+				</button>
+				</div>
+		
+			</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+	  <div class="card mt-2 bg-dark text-white">
+		<div class="card-header">
+		  <i class="far fa-images"></i> Recent Uploads
+		</div>
+		<div class="card-body">
+		  <div class="row">
+			<% if (data) { %>
+				<% for (var i = 0; i < data.length; i++ ) { %>
+				<div class="col-md-4 text-center">
+				 <a href="/images/<%= data[i].id %>">
+					<img src="/img/<%= data[i].nombre %>" alt="<%= data[i].titulo %>" class="w-100 h-100" style="object-fit: cover;">
+				 </a>
+				</div>
+				<% } %>
+			<% } %>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<%- include ('partials/footer') %>
+</body>
+
+</html>

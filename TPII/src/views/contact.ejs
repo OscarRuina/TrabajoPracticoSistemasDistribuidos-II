@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ('partials/head') %>
+</head>
+
+<body>
+  <%- include ('partials/navigation') %>
+
+    <div class="container p-5">
+      <div class="container">
+        <div class="col-sm-4 offset-md-4">
+
+          <div class="card animated flipInY">
+
+            <div class="card-header bg-dark text-white text-center">
+              <h3>Contactos</h3>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <form action="/addContacto" method="post">
+                  <div class="form-group">
+                    <input class="form-control" type="text" name="Nombre" placeholder="Nombre">
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" type="text" name="Apellido" placeholder="Apellido">
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" type="text" name="Mail" placeholder="Mail">
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>n*</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Mail</th>
+              <th>Accion</th>
+            </tr>
+            <tbody>
+              <% if (data) { %>
+                <% for (var i = 0; i < data.length; i++ ) { %>
+                <tr>
+                  <td><%= data[i].id %></td>
+                  <td><%= data[i].nombre %></td>
+                  <td><%= data[i].apellido %></td>
+                  <td><%= data[i].mail %></td>
+                  <td>
+                    <a href="/eliminarContacto/<%= data[i].id %>" class="btn btn-danger">Eliminar</a>
+
+                  </td>
+                </tr>
+                <% } %>
+              <% } %>
+            </tbody>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+    <%- include ('partials/footer') %>
+</body>
+
+</html>

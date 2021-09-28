@@ -53,17 +53,25 @@ router.post('/Subirimagen', async (req, res) => {
 router.get('/images/:id',(req, res) => {
   console.log('parametro', req.params.id)
   var id = req.params.id
+  var contador  = 0;
 
   req.getConnection((err, conn) => {
     conn.query('SELECT * FROM imagen WHERE id = ?', [id], (err,imagen) => {
       if (err) console.log(err);
-      console.log(imagen);
+
+      contador = imagen[0].vistas + 1
+      console.log('contador: ', contador)
+
+      req.getConnection((err, conn) => {
+        conn.query('UPDATE imagen SET vistas = ? where id = ?', [contador,id], (err,result) => {
+          if (err) console.log(err);
+          console.log(result);
+        });
+      })
 
       req.getConnection((err, conn) => {
         conn.query('SELECT * FROM comentario WHERE id = ?', [id], (err,comentario) => {
           if (err) console.log(err);
-          
-          console.log(comentario);
           res.render('imagen',{data: imagen, comentario: comentario});
         });
       })
@@ -88,5 +96,33 @@ router.post('/images/:id/comment',(req, res) => {
       });
     })
 });
+
+router.post('/images/:id/like',(req, res) => {
+  console.log('cuerpo de la entrada', req.body)
+  console.log('id:', req.params.id)
+
+  var id = req.params.id
+  var contador = 0
+
+  req.getConnection((err, conn) => {
+      conn.query('SELECT * FROM imagen WHERE id = ?', [id], (err,imagen) => {
+        if (err) console.log(err);
+
+        contador = imagen[0].likes + 1
+        console.log('contador: ', contador)
+
+        req.getConnection((err, conn) => {
+          conn.query('UPDATE imagen SET likes = ? where id = ?', [contador,id], (err,result) => {
+            if (err) console.log(err);
+            console.log(result);
+            res.redirect('/images/' + req.params.id)
+          });
+        })
+
+      });
+    })
+
+});
+
 
 module.exports = router;
